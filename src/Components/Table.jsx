@@ -1,11 +1,91 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ListContext from '../Context/ListContext';
 
 function Table() {
   const { results } = useContext(ListContext);
+  const { nameFilter, setNameFilter } = useContext(ListContext);
+  const [form, setForm] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
+  console.log(setForm);
+  const filteredResults = () => (
+    results.filter((result) => {
+      const lowerName = result.name.toLowerCase();
+      return lowerName.includes(nameFilter.filterByName);
+    })
+  );
+
+  // setNameFilter(filteredResults);
+  // setNameFilter((prevNameFilter) => ({
+  //   ...prevNameFilter,
+  //   filterByName: {
+  //     name: prevNameFilter.filterByName.name,
+  //   },
+  // })),
+
   return (
     <div>
       <h1>Projeto Star Wars - Trybe</h1>
+      <div>
+        <label htmlFor="search">
+          <input
+            type="text"
+            placeholder="Pesquisar..."
+            data-testid="name-filter"
+            value={ nameFilter.filterByName }
+            onChange={ ({ target }) => setNameFilter({ filterByName: target.value }) }
+          />
+        </label>
+      </div>
+      <form>
+        <label htmlFor="column">
+          Coluna:
+          <select
+            name="column"
+            id="column"
+            value={ form.column }
+            data-testid="column-filter"
+          >
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </label>
+        <label htmlFor="comparison-filter">
+          Operador:
+          <select
+            name="comparison"
+            id="comparison-filter"
+            value={ form.comparison }
+            data-testid="comparison-filter"
+          >
+            <option value="maior que">maior que</option>
+            <option value="igual a">igual a</option>
+            <option value="menor que">menor que</option>
+          </select>
+        </label>
+        <label htmlFor="value-filter">
+          Valor:
+          <input
+            type="number"
+            name="value"
+            id="value-filter"
+            value={ form.value }
+            data-testid="value-filter"
+          />
+        </label>
+        <button
+          type="submit"
+          data-testid="button-filter"
+          // onClick={  }
+        >
+          Filtrar
+        </button>
+      </form>
       <table>
         <thead>
           <tr>
@@ -25,7 +105,7 @@ function Table() {
           </tr>
         </thead>
         <tbody className="table-body">
-          { results.map((e) => (
+          { filteredResults().map((e) => (
             <tr key={ e.name }>
               <td>{ e.name }</td>
               <td>{ e.rotation_period }</td>
