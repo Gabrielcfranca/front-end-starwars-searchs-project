@@ -6,6 +6,7 @@ const PLANET_LIST = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 function ListProvider(props) {
   const [results, setResults] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [nameFilter, setNameFilter] = useState({ filterByName: '' });
@@ -22,6 +23,7 @@ function ListProvider(props) {
         const data = await response.json();
         setLoading(false);
         setResults(data.results.filter((e) => delete e.residents));
+        setFilteredResults(data.results.filter((e) => delete e.residents));
         setError(null);
       } catch (e) {
         setError(e.message);
@@ -35,11 +37,14 @@ function ListProvider(props) {
 
   const contextType = {
     results,
+    setResults,
     loading,
     error,
     nameFilter,
     setNameFilter,
     handleSearch,
+    filteredResults,
+    setFilteredResults,
   };
 
   return (

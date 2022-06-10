@@ -1,21 +1,80 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ListContext from '../Context/ListContext';
 
 function Table() {
-  const { results } = useContext(ListContext);
-  const { nameFilter, setNameFilter } = useContext(ListContext);
+  const { results,
+    nameFilter,
+    setNameFilter,
+    filteredResults,
+    setFilteredResults,
+  } = useContext(ListContext);
+
   const [form, setForm] = useState({
     column: 'population',
     comparison: 'maior que',
     value: 0,
   });
-  console.log(setForm);
-  const filteredResults = () => (
-    results.filter((result) => {
+
+  const [numericFilters, setNumericFilters] = useState([]);
+
+  useEffect(() => {
+    const filteredData = results.filter((result) => {
       const lowerName = result.name.toLowerCase();
       return lowerName.includes(nameFilter.filterByName);
-    })
-  );
+    });
+
+    const resultReduce = numericFilters.reduce((acc, filter) => acc.filter((result) => {
+      switch (filter.comparison) {
+      case 'maior que':
+        return Number(result[filter.column]) > Number(filter.value);
+      case 'menor que':
+        return Number(result[filter.column]) < Number(filter.value);
+      case 'igual a':
+        return Number(result[filter.column]) === Number(filter.value);
+      default:
+        return true;
+      }
+    }), filteredData);
+
+    setFilteredResults(resultReduce);
+    // const oldResults = filteredResults();
+    // console.log(oldResults, 'oldResults');
+  }, [nameFilter, numericFilters]);
+
+  const handleOptionChange = ({ target }) => {
+    const { name, value } = target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleNumericFilter = () => {
+    // event.preventDefault();
+    const { column, comparison, value } = form;
+    const newNumericFilter = { column, comparison, value };
+    setNumericFilters((prevNumericFilters) => [...prevNumericFilters, newNumericFilter]);
+  };
+  // useEffect(() => {
+  //   const filteredData = filt
+
+  // const filterButton = () => {
+  //   const newFilter = filteredResults();
+  //   const { column, comparison, value } = form;
+  //   const resultColumn = newFilter.filter((e) => {
+  //     if (column === e.column
+  //   });
+  //   console.log(resultColumn, 'resultColumn');
+  // };
+
+  //   if (comparison === 'maior que') {
+  //     return filtered.filter((result) => result[column] > value);
+  //   }
+  //   if (comparison === 'menor que') {
+  //     return filtered.filter((result) => result[column] < value);
+  //   }
+  //   if (comparison === 'igual a') {
+  //     return filtered.filter((result) => result[column] === value);
+  //   }
+  //   return filtered;
+  // };
 
   // setNameFilter(filteredResults);
   // setNameFilter((prevNameFilter) => ({
@@ -47,6 +106,7 @@ function Table() {
             id="column"
             value={ form.column }
             data-testid="column-filter"
+            onChange={ handleOptionChange }
           >
             <option value="population">population</option>
             <option value="orbital_period">orbital_period</option>
@@ -62,6 +122,7 @@ function Table() {
             id="comparison-filter"
             value={ form.comparison }
             data-testid="comparison-filter"
+            onChange={ handleOptionChange }
           >
             <option value="maior que">maior que</option>
             <option value="igual a">igual a</option>
@@ -76,16 +137,24 @@ function Table() {
             id="value-filter"
             value={ form.value }
             data-testid="value-filter"
+            onChange={ handleOptionChange }
           />
         </label>
         <button
-          type="submit"
+          type="button"
           data-testid="button-filter"
-          // onClick={  }
+          onClick={ handleNumericFilter }
         >
           Filtrar
         </button>
       </form>
+      { numericFilters.map((filter, index) => (
+        <p key={ filter.column }>
+          {
+            `${filter.column} - ${index} - ${filter.comparison} - ${filter.value}`
+          }
+        </p>
+      )) }
       <table>
         <thead>
           <tr>
@@ -105,7 +174,7 @@ function Table() {
           </tr>
         </thead>
         <tbody className="table-body">
-          { filteredResults().map((e) => (
+          { filteredResults.map((e) => (
             <tr key={ e.name }>
               <td>{ e.name }</td>
               <td>{ e.rotation_period }</td>
