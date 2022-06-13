@@ -39,7 +39,7 @@ function Table() {
     setFilteredResults(resultReduce);
     // const oldResults = filteredResults();
     // console.log(oldResults, 'oldResults');
-  }, [nameFilter, numericFilters]);
+  }, [nameFilter, numericFilters, results, setFilteredResults]);
 
   const handleOptionChange = ({ target }) => {
     const { name, value } = target;
@@ -52,37 +52,16 @@ function Table() {
     const newNumericFilter = { column, comparison, value };
     setNumericFilters((prevNumericFilters) => [...prevNumericFilters, newNumericFilter]);
   };
-  // useEffect(() => {
-  //   const filteredData = filt
 
-  // const filterButton = () => {
-  //   const newFilter = filteredResults();
-  //   const { column, comparison, value } = form;
-  //   const resultColumn = newFilter.filter((e) => {
-  //     if (column === e.column
-  //   });
-  //   console.log(resultColumn, 'resultColumn');
-  // };
+  const eraseFilter = (index) => {
+    setNumericFilters(
+      numericFilters.filter((_item, itemIndex) => itemIndex !== index),
+    );
+  };
 
-  //   if (comparison === 'maior que') {
-  //     return filtered.filter((result) => result[column] > value);
-  //   }
-  //   if (comparison === 'menor que') {
-  //     return filtered.filter((result) => result[column] < value);
-  //   }
-  //   if (comparison === 'igual a') {
-  //     return filtered.filter((result) => result[column] === value);
-  //   }
-  //   return filtered;
-  // };
-
-  // setNameFilter(filteredResults);
-  // setNameFilter((prevNameFilter) => ({
-  //   ...prevNameFilter,
-  //   filterByName: {
-  //     name: prevNameFilter.filterByName.name,
-  //   },
-  // })),
+  const removeAllFilters = () => {
+    setNumericFilters([]);
+  };
 
   return (
     <div>
@@ -149,12 +128,27 @@ function Table() {
         </button>
       </form>
       { numericFilters.map((filter, index) => (
-        <p key={ filter.column }>
-          {
-            `${filter.column} - ${index} - ${filter.comparison} - ${filter.value}`
-          }
-        </p>
+        <div key={ index }>
+          <p data-testid="filter" key={ filter.column }>
+            {
+              `${filter.column} - ${index} - ${filter.comparison} - ${filter.value}  `
+            }
+            <button
+              type="button"
+              onClick={ () => eraseFilter(index) }
+            >
+              x
+            </button>
+          </p>
+        </div>
       )) }
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ removeAllFilters }
+      >
+        Remover Filtros
+      </button>
       <table>
         <thead>
           <tr>
