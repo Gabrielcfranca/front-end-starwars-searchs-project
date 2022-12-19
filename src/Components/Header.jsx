@@ -39,7 +39,7 @@ function Header() {
     setFilteredResults(resultReduce);
     // const oldResults = filteredResults();
     // console.log(oldResults, 'oldResults');
-  }, [nameFilter, numericFilters, results, setFilteredResults]);
+  }, [nameFilter, numericFilters, results, setFilteredResults, filteredResults]);
 
   const handleOptionChange = ({ target }) => {
     const { name, value } = target;

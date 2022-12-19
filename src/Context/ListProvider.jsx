@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ListContext from './ListContext';
 
-const PLANET_LIST = 'https://swapi-trybe.herokuapp.com/api/planets/';
+const PLANET_LIST = 'https://swapi.dev/api/planets/';
 
 function ListProvider(props) {
   const [results, setResults] = useState([]);
