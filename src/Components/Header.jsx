@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import ListContext from '../Context/ListContext';
 import styles from './Table.module.css';
 import logo from './projectIntro.gif';
-import TableData from './TableData';
 
-function Table() {
+function Header() {
   const { results,
     nameFilter,
     setNameFilter,
@@ -18,24 +17,13 @@ function Table() {
     value: 0,
   });
 
-  const initialOptions = [
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-
   const [numericFilters, setNumericFilters] = useState([]);
-
-  const [orderList, setOrderList] = useState({
-    order: {
-      column: 'population',
-      sort: 'ASC',
-    },
-  });
 
   useEffect(() => {
     const filteredData = results.filter((result) => {
       const lowerName = result.name.toLowerCase();
       return lowerName.includes(nameFilter.filterByName);
     });
-
     const resultReduce = numericFilters.reduce((acc, filter) => acc.filter((result) => {
       switch (filter.comparison) {
       case 'maior que':
@@ -48,8 +36,9 @@ function Table() {
         return true;
       }
     }), filteredData);
-
     setFilteredResults(resultReduce);
+    // const oldResults = filteredResults();
+    // console.log(oldResults, 'oldResults');
   }, [nameFilter, numericFilters, results, setFilteredResults]);
 
   const handleOptionChange = ({ target }) => {
@@ -74,37 +63,14 @@ function Table() {
     setNumericFilters([]);
   };
 
-  const handleOrderPlanets = ({ target }) => {
-    const { name, value } = target;
-    setOrderList((prevOrderList) => ({
-      order: {
-        ...prevOrderList.order, [name]: value },
-    }));
-  };
-
-  const orderPlanets = () => {
-    const { column, sort } = orderList.order;
-    const orderedPlanets = {
-      ASC: (a, b) => a[column] - b[column],
-      DESC: (a, b) => b[column] - a[column],
-    };
-    const ordered = filteredResults.filter((result) => result[column] !== 'unknown')
-      .sort(orderedPlanets[sort]);
-    const orderedUnknown = filteredResults.filter(
-      (result) => result[column] === 'unknown',
-    );
-    const orderedResult = [...ordered, ...orderedUnknown];
-    setFilteredResults(orderedResult);
-  };
-
   return (
-    <section className={ styles.header }>
+    <div className={ styles.table }>
       <img
         src={ logo }
         alt="starwars"
         className={ styles.imageHeader }
       />
-      <div className={ styles.options }>
+      <div className={ styles.header }>
         <h1>Projeto Star Wars - Trybe</h1>
         <label htmlFor="search">
           <input
@@ -116,7 +82,7 @@ function Table() {
           />
         </label>
       </div>
-      <form>
+      <form className={ styles.header }>
         <label htmlFor="column">
           Coluna:
           <select
@@ -126,9 +92,11 @@ function Table() {
             data-testid="column-filter"
             onChange={ handleOptionChange }
           >
-            { initialOptions.map((e) => (
-              <option key={ e } value={ e }>{e}</option>
-            )) }
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
           </select>
         </label>
         <label htmlFor="comparison-filter">
@@ -163,6 +131,7 @@ function Table() {
         >
           Filtrar
         </button>
+
         { numericFilters.map((filter, index) => (
           <div key={ index }>
             <p data-testid="filter" key={ filter.column }>
@@ -186,51 +155,24 @@ function Table() {
           Remover Filtros
         </button>
         <label htmlFor="column-sort">
-          Ordenar:
+          Coluna:
           <select
-            name="column"
+            name="column-sort"
             id="column-sort"
-            value={ orderList.order.column }
+            value={ form.column }
             data-testid="column-sort"
-            onChange={ handleOrderPlanets }
+            onChange={ handleOptionChange }
           >
-            { initialOptions.map((e) => (
-              <option key={ e } value={ e }>{e}</option>
-            )) }
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
           </select>
         </label>
-        <label htmlFor="order-asc">
-          <input
-            type="radio"
-            name="sort"
-            id="order-asc"
-            value="ASC"
-            data-testid="column-sort-input-asc"
-            onChange={ handleOrderPlanets }
-          />
-          Ascendente
-        </label>
-        <label htmlFor="order-desc">
-          <input
-            type="radio"
-            name="sort"
-            id="order-desc"
-            value="DESC"
-            data-testid="column-sort-input-desc"
-            onChange={ handleOrderPlanets }
-          />
-          Descendente
-        </label>
-        <button
-          type="button"
-          data-testid="column-sort-button"
-          onClick={ orderPlanets }
-        >
-          Ordenar
-        </button>
       </form>
-      <TableData />
-    </section>
+    </div>
   );
 }
-export default Table;
+
+export default Header;
