@@ -1,24 +1,25 @@
 .header {
-  display: flex;
   align-items: center;
   background-color: rgb(40, 39, 39);
   color: antiquewhite;
+  display: flex;
   flex-direction: column;
 }
 
-.imageHeader{
+.imageHeader {
+  align-items: center;
   display: flex;
   height: 80vh;
-  width: 100vw;
-  align-items: center;
   justify-content: center;
+  width: 100vw;
 }
-/* 
+
+/*
 .options {
-  
+
 } */
 
-.tableList{
+.tableList {
   margin-left: 50px;
   margin-right: 50px;
 }
