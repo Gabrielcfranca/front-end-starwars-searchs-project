@@ -1,13 +1,15 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+## Descrição do projeto
+Trata-se de um site que desenvolvi o front-end, realizando requisições de uma api externa, trabalhando filtros, que são capazes de consultar os planetas do Starwars de acordo com suas escolhas conforme abaixo.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+- Ordenação: É possível ordenar o resultado da busca de acordo com os filtros disponíveis, tanto em ordem crescente como decrescente.
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+- Comparação: através de um parâmetro escolhido, o usuário pode filtrar as opções para melhor visualização de seus interesses e curiosidades.
+
+**O framework escolhido para este projeto foi React utilizando context API**
+
+## Lint utilizado
+
+O projeto foi desenvolvido seguindo as Normas de Códgo Limpo especificadas pelas regras de Lint da Trybe. Instalão e informações adicionais podem ser verificara [aqui](https://github.com/betrybe/eslint-config-trybe)
+
+## Instruções de utilização do projeto:
+Para visualizar o projeto, basta clonar este repositório, na pasta raiz, utilize o comando `npm install` para instalar as bibliotecas nessárias já configuradas no JSON. Pronto, agora basta rodar `npm start`, já confirgurado para a porta local 3000.
