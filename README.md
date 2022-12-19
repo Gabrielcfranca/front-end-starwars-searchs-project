@@ -1,5 +1,5 @@
 ## Descrição do projeto
-Trata-se de um site que desenvolvi o front-end, realizando requisições de uma api externa, trabalhando filtros, que são capazes de consultar os planetas do Starwars de acordo com suas escolhas conforme abaixo.
+Trata-se de um site que desenvolvi o front-end, realizando requisições de uma api externa, trabalhando filtros, que são capazes de consultar os planetas do Starwars de acordo com suas preferências, conforme abaixo.
 
 - Ordenação: É possível ordenar o resultado da busca de acordo com os filtros disponíveis, tanto em ordem crescente como decrescente.
 
