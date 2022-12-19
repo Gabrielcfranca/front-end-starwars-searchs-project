@@ -3,7 +3,7 @@ Trata-se de um site que desenvolvi o front-end, realizando requisições de uma 
 
 - Ordenação: É possível ordenar o resultado da busca de acordo com os filtros disponíveis, tanto em ordem crescente como decrescente.
 
-- Comparação: através de um parâmetro escolhido, o usuário pode filtrar as opções para melhor visualização de seus interesses e curiosidades.
+- Comparação: através de um parâmetro escolhido, o usuário pode filtrar as opções para melhor visualização de seus interesses e curiosidades, podendo ser, maior, menor ou igual.
 
 **O framework escolhido para este projeto foi React utilizando context API**
 
